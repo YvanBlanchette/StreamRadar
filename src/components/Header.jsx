@@ -12,7 +12,7 @@ const Header = () => {
 
 	return (
 		<header className="w-full bg-white dark:bg-black">
-			<div className="w-[90vw] mx-auto max-w-7xl flex justify-between items-center py-4">
+			<div className="w-[90vw] mx-auto max-w-7xl flex justify-between items-center py-6">
 				<Link to="/">
 					{theme === "dark" ? (
 						<img src="assets/images/streamradar_logo--white.svg" alt="Logo de StreamRadar" className="h-20" />

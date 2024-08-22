@@ -5,6 +5,8 @@ import ErrorPage from "./pages/ErrorPage";
 import New from "./pages/New";
 import Movies from "./pages/Movies";
 import TvShows from "./pages/TvShows";
+import MovieDetails from "./pages/MovieDetails";
+import TvDetails from "./pages/TvDetails";
 
 export const Router = createBrowserRouter([
 	{
@@ -26,6 +28,14 @@ export const Router = createBrowserRouter([
 			{
 				path: "/tv-shows",
 				element: <TvShows />,
+			},
+			{
+				path: "/movie/:id",
+				element: <MovieDetails />,
+			},
+			{
+				path: "/tv/:id",
+				element: <TvDetails />,
 			},
 			// Error Page
 			{

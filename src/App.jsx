@@ -8,7 +8,7 @@ function App() {
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 			<div className="min-h-screen w-screen flex flex-col">
 				<Header />
-				<main className="flex-1 bg-[url('./assets/images/background.svg')] bg-cover">
+				<main className="flex-1">
 					<Outlet />
 				</main>
 				<Footer />
