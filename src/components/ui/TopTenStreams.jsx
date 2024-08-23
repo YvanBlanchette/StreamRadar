@@ -35,19 +35,20 @@ const TopTenStreams = ({ endpoint }) => {
 					{tvShows.map((stream, index) => (
 						<CarouselItem key={stream.id} className="md:basis-1/2 lg:basis-1/5">
 							<Dialog>
-								<Card className="bg-transparent border-none">
+								<Card className="bg-transparent border-none shadow-none">
 									<CardContent className="relative flex items-center justify-center">
 										<DialogTrigger>
-											<img src={`https://image.tmdb.org/t/p/w500/${stream.poster_path}`} className="w-full" alt={stream.name} />
+											<img src={`https://image.tmdb.org/t/p/w500/${stream.poster_path}`} className="w-full shadow-md shadow-black/50" alt={stream.name} />
 										</DialogTrigger>
-										<span className="absolute left-6 top-0 text-xl bg-gradient-to-br from-[#47C300]/80 to-[#A2C900]/80 text-white px-4 rounded-br-3xl aspect-square py-2 font-semibold z-10">
-											{index + 1}
-										</span>
-										<DialogContent className="p-0 bg-[#0F1523]">
-											<div className="flex">
+
+										<DialogContent
+											aria-describedby={stream.name}
+											className="p-0 w-full h-full overflow-y-scroll md:w-[inherit] md:h-[inherit] pt-10 md:pt-0 bg-black md:shadow-lg dark:shadow-[#A2C900]/30"
+										>
+											<div className="flex flex-col md:flex-row">
 												<img src={`https://image.tmdb.org/t/p/w500/${stream.poster_path}`} alt={stream.name} className="w-[300px] mx-auto object-cover" />
 												<div className="px-8 flex flex-col">
-													<DialogTitle className="text-center text-3xl mb-2">{stream.name}</DialogTitle>
+													<DialogTitle className="text-center text-2xl mb-2">{stream.media_type === "tv" ? stream.name : stream.title}</DialogTitle>
 													<DialogDescription className="text-gray-400 text-justify text-base mb-6">{stream.overview}</DialogDescription>
 													<p className="text-[#A2C900] font-bold mb-1">
 														<span className="text-gray-400 font-bold">Date de première diffusion:</span> {stream.first_air_date}
@@ -57,7 +58,7 @@ const TopTenStreams = ({ endpoint }) => {
 													</p>
 
 													<a
-														href={`${stream.media_type === "tv" ? "tv" : "movie"}/${stream.id}`}
+														href={`/${stream.media_type === "tv" ? "tv" : "movie"}/${stream.id}`}
 														className="bg-[#A2C900] text-white flex items-center justify-center hover:opacity-80 font-bold py-2 px-4 mb-6 uppercase transition-all duration-300"
 													>
 														Plus de détails
@@ -71,8 +72,8 @@ const TopTenStreams = ({ endpoint }) => {
 						</CarouselItem>
 					))}
 				</CarouselContent>
-				<CarouselPrevious />
-				<CarouselNext />
+				<CarouselPrevious className="hidden md:block" />
+				<CarouselNext className="hidden md:block" />
 			</Carousel>
 		</div>
 	);

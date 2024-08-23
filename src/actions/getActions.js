@@ -19,7 +19,7 @@ export async function fetchTenPopulars(endpoint) {
     const data = await fetchAPIData(endpoint);
     // Filter out the trending peoples, keeping only movies and TV shows
     const filteredResults = data.results.slice(0, 10);
-    console.log(filteredResults);
+
     return filteredResults;
   } catch (error) {
     throw new Error(`Error: ${error.message}`, error);

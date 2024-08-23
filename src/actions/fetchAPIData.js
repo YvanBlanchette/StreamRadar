@@ -1,10 +1,9 @@
 import axios from 'axios';
+const API_KEY = import.meta.env.VITE_API_KEY;
+const API_URL = import.meta.env.VITE_API_URL;
 
 //! -----> Fetch my data from TMDB API <-----//
 export async function fetchAPIData(endpoint) {
-  const API_KEY = import.meta.env.VITE_API_KEY;
-  const API_URL = import.meta.env.VITE_API_URL;
-
   try {
     // Use Axios to make a GET request to the specified endpoint
     const response = await axios.get(`${API_URL}${endpoint}`, {

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { NextButton, PrevButton, usePrevNextButtons } from "./EmblaCarouselArrowButtons";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { fetchTrendingMoviesAndTvShows } from "@/actions/getActions";
 
@@ -12,11 +11,8 @@ const EmblaCarousel = (props) => {
 		const loadMovies = async () => {
 			try {
 				const moviesAndTvShows = await fetchTrendingMoviesAndTvShows("trending/all/week");
-				// Set the state with the fetched data
 				setTrending(moviesAndTvShows);
-				console.log(moviesAndTvShows);
 			} catch (error) {
-				// Handle errors
 				console.error(error);
 			}
 		};
@@ -26,24 +22,16 @@ const EmblaCarousel = (props) => {
 
 	const { options } = props;
 	const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-		AutoScroll({ playOnInit: true, stopOnMouseEnter: true, stopOnInteraction: false, startDelay: 0, speed: 0.8, direction: "forward" }),
+		AutoScroll({
+			playOnInit: true,
+			stopOnMouseEnter: true,
+			stopOnInteraction: false,
+			startDelay: 0,
+			speed: 0.8,
+			direction: "forward",
+		}),
 	]);
 	const [isPlaying, setIsPlaying] = useState(true);
-
-	const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi);
-
-	const onButtonAutoplayClick = useCallback(
-		(callback) => {
-			const autoScroll = emblaApi?.plugins()?.autoScroll;
-			if (!autoScroll) return;
-
-			const resetOrStop = autoScroll.options.stopOnInteraction === false ? autoScroll.reset : autoScroll.stop;
-
-			resetOrStop();
-			callback();
-		},
-		[emblaApi]
-	);
 
 	useEffect(() => {
 		const autoScroll = emblaApi?.plugins()?.autoScroll;
@@ -63,16 +51,23 @@ const EmblaCarousel = (props) => {
 					{trending.map((stream) => (
 						<Dialog key={stream.id}>
 							<DialogTrigger className="embla__slide">
-								<div className="embla__slide__inner  group">
-									<img src={`https://image.tmdb.org/t/p/w500/${stream.poster_path}`} className="embla__slide__img relative h-full" alt={stream.title} />
+								<div className="embla__slide__inner group">
+									<img
+										src={`https://image.tmdb.org/t/p/w500/${stream.poster_path}`}
+										className="embla__slide__img relative h-full shadow-md shadow-black/50"
+										alt={stream.title}
+									/>
 									<div className="absolute px-2 w-16 h-16 z-50 top-0 right-0 text-xl font-bold bg-gradient-to-bl from-[#47C300]/80 to-[#A2C900]/80 rounded-bl-3xl flex flex-col items-center justify-center">
 										<span className="text-xs text-center">{stream.media_type === "tv" ? "Série TV" : "Film"}</span>
 										{stream.vote_average.toFixed(1)}
 									</div>
 								</div>
 							</DialogTrigger>
-							<DialogContent className="p-0 bg-[#0F1523]">
-								<div className="flex">
+							<DialogContent
+								aria-describedby={stream.title}
+								className="p-0 w-full h-full overflow-y-scroll md:w-[inherit] md:h-[inherit] pt-10 md:pt-0 bg-black md:shadow-lg dark:shadow-[#A2C900]/30"
+							>
+								<div className="flex flex-col md:flex-row">
 									<img src={`https://image.tmdb.org/t/p/w500/${stream.poster_path}`} alt={stream.name} className="w-[300px] mx-auto" />
 									<div className="px-8 pt-2 flex flex-col">
 										<DialogTitle className="text-center text-3xl mb-2 tracking-wide">{stream.media_type === "tv" ? stream.name : stream.title}</DialogTitle>
@@ -98,21 +93,6 @@ const EmblaCarousel = (props) => {
 					))}
 				</div>
 			</div>
-
-			{/* <div className="embla__controls">
-				<div className="embla__buttons">
-					<PrevButton
-						onClick={() => onButtonAutoplayClick(onPrevButtonClick)}
-						disabled={prevBtnDisabled}
-						className="absolute top-[50%] -left-16 -translate-y-[50%] -translate-x- h-[80%] group-hover:opacity-100 opacity-20 transition-opacity duration-300"
-					/>
-					<NextButton
-						onClick={() => onButtonAutoplayClick(onNextButtonClick)}
-						disabled={nextBtnDisabled}
-						className="absolute top-[50%] -right-[9%] -translate-y-[50%] -translate-x- h-[80%] group-hover:opacity-100 opacity-20 transition-opacity duration-300"
-					/>
-				</div>
-			</div> */}
 		</div>
 	);
 };
