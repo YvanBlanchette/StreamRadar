@@ -7,54 +7,55 @@ import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import Error from "./Error";
 
+// Component to display a carousel of currently playing movies or shows
 const Featured = ({ endpoint, title }) => {
-	// State to store the fetched streams data
+	// State to hold the list of currently playing streams
 	const [nowPlaying, setNowPlaying] = useState([]);
 
-	// State to store the loading state
+	// State to manage the loading state
 	const [loading, setLoading] = useState(true);
 
-	// State to store the error state
+	// State to manage any errors that occur during data fetching
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		// Function to fetch the Streams data
+		// Function to fetch data from the provided endpoint
 		const fetchData = async () => {
 			try {
-				// Set loading state to true to show the spinner while fetching the data
+				// Set loading to true before fetching
 				setLoading(true);
 
-				// Fetching the streams data
+				// Fetch data from the API
 				const streams = await fetchNowPlaying(endpoint);
 
-				// Set the fetched streams data in the state
+				// Update state with the fetched streams
 				setNowPlaying(streams.results);
-
 				console.log(streams.results);
-			} catch (error) {
+			} catch (err) {
+				// Set error state if an error occurs
 				setError("Failed to fetch data.");
-				// Handle errors
-				console.error(error);
+				console.error(err);
 			} finally {
-				// Set loading state to false to hide the spinner
+				// Turn off loading indicator
 				setLoading(false);
 			}
 		};
 
-		// Call the fetchData function
+		// Call fetchData when the component mounts or endpoint changes
 		fetchData();
 	}, [endpoint]);
 
-	// Loading state for Movie details
+	// Show a spinner while data is loading
 	if (loading) {
 		return <Spinner />;
 	}
 
-	// Error state for Movie details
+	// Display an error message if there was an error fetching data
 	if (error) {
 		return <Error message={error} />;
 	}
 
+	// Display an error message if no data is available
 	if (nowPlaying.length === 0) {
 		return <Error message="Aucun film à afficher pour le moment." />;
 	}
@@ -75,8 +76,10 @@ const Featured = ({ endpoint, title }) => {
 				{nowPlaying.map((stream) => (
 					<CarouselItem key={stream.id} className="relative w-full h-[100vh] flex flex-col items-center justify-center">
 						<div className="absolute mx-auto">
+							{/* Carousel title */}
 							<h2 className="col-span-2 text-6xl font-bold mb-8 text-center uppercase">{title}</h2>
 							<div className="flex justify-center gap-4 mx-auto">
+								{/* Poster image */}
 								<div className="h-[450px] aspect-[9/13] cols-span-2 md:col-span-1 ml-auto">
 									<img
 										src={`https://image.tmdb.org/t/p/original/${stream.poster_path}`}
@@ -85,11 +88,15 @@ const Featured = ({ endpoint, title }) => {
 									/>
 								</div>
 								<div className="cols-span-2 md:col-span-1 z-20 w-[500px] ml-2">
-									<h3 className="text-3xl font-bold mb-2">{stream.title}</h3>
+									{/* Stream title */}
+									<h3 className="text-3xl font-bold mb-2">{stream.title || stream.name}</h3>
+									{/* Rating stars */}
 									<RatingStars voteAverage={stream.vote_average} voteCount={stream.vote_count} />
+									{/* Stream overview */}
 									<p className="text-justify text-lg pb-6">{stream.overview}</p>
+									{/* Details button */}
 									<a
-										href={`/movie/${stream.id}`}
+										href={stream.first_air_date ? `/tv/${stream.id}` : `/movie/${stream.id}`}
 										className="bg-[#A2C900] text-white flex items-center justify-center hover:opacity-80 font-bold py-2 px-4 mb-6 uppercase transition-all duration-300 w-fit cursor-pointer"
 									>
 										Tous les détails
@@ -97,6 +104,7 @@ const Featured = ({ endpoint, title }) => {
 								</div>
 							</div>
 						</div>
+						{/* Backdrop image */}
 						<img
 							src={`https://image.tmdb.org/t/p/original/${stream.backdrop_path}`}
 							alt={stream.media_type === "movie" ? stream.title : stream.name}

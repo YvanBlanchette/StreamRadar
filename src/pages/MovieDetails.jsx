@@ -1,59 +1,61 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaImdb } from "react-icons/fa";
-import { fetchStreamDetails } from "@/actions/getActions";
+import { fetchDetails } from "@/actions/getActions";
 import { runtimeFormatted, dateFormatted } from "@/lib/utils";
 import RatingStars from "@/components/RatingStars";
 import TrailersPlayer from "@/components/TrailersPlayer";
-import TopStreams from "@/components/ui/TopStreams";
+import TopStreams from "@/components/TopStreams";
 import Spinner from "@/components/Spinner";
 import Error from "@/components/Error";
+import Cast from "@/components/Cast";
 
 const MovieDetails = () => {
+	// Extract movie ID from URL parameters
 	const { id } = useParams();
+
+	// State variables to hold movie details, trailers, credits, and loading/error status
 	const [movie, setMovie] = useState(null);
 	const [movieTrailers, setMovieTrailers] = useState([]);
+	const [credits, setCredits] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		// Fetch the movie details and trailers
+		// Function to fetch movie details, trailers, and credits
 		const fetchData = async () => {
 			try {
-				// Set loading state to true to show the spinner while fetching the data
-				setLoading(true);
+				setLoading(true); // Show loading spinner
 
-				// Fetching of the movie details and trailers in parallel
-				const [movie, trailers] = await Promise.all([fetchStreamDetails(`movie/${id}`), fetchStreamDetails(`movie/${id}/videos`)]);
+				// Fetch movie details, trailers, and credits in parallel
+				const [movie, trailers, credits] = await Promise.all([
+					fetchDetails(`movie/${id}`),
+					fetchDetails(`movie/${id}/videos`),
+					fetchDetails(`movie/${id}/credits`),
+				]);
 
-				// Set the movie details and trailers in the states
+				// Update state with fetched data
 				setMovie(movie);
-				setMovieTrailers(trailers.results.slice(0, 2) || []);
+				setMovieTrailers(trailers.results.slice(0, 2) || []); // Take only the first two trailers
+				setCredits(credits.cast.slice(0, 20) || []); // Take only the first 20 cast members
 			} catch (error) {
-				setError("Failed to fetch data.");
-				// Handle errors
+				setError("Failed to fetch data."); // Set error message
 				console.error(error);
 			} finally {
-				// Set loading state to false to hide the spinner
-				setLoading(false);
+				setLoading(false); // Hide loading spinner
 			}
 		};
 
-		// Call the fetchData function
-		fetchData();
+		fetchData(); // Fetch data when component mounts
 	}, [id]);
 
-	// Loading state for Movie details
+	// Return spinner while loading
 	if (loading) {
 		return <Spinner />;
 	}
 
-	// Error state for Movie details
-	if (error) {
-		return <Error />;
-	}
-
-	if (!movie) {
+	// Return error component if there is an error or movie data is missing
+	if (error || !movie) {
 		return <Error />;
 	}
 
@@ -95,7 +97,7 @@ const MovieDetails = () => {
 							<span className="font-semibold mr-2 text-[#A2C900]">Titre original :</span> {movie.original_title}
 						</div>
 
-						{/* Movie release date*/}
+						{/* Movie release date */}
 						<div className="mb-1">
 							<span className="font-semibold mr-2 text-[#A2C900]">Date de sortie :</span> {dateFormatted(movie.release_date)}
 						</div>
@@ -121,13 +123,13 @@ const MovieDetails = () => {
 								.join(", ")}
 						</div>
 
-						{/* Movie budget*/}
+						{/* Movie budget */}
 						<div className="mb-1">
 							<span className="font-semibold mr-2 text-[#A2C900]">Coût de production :</span>{" "}
 							{movie.budget.toLocaleString("en-US", { style: "currency", currency: "USD" })}
 						</div>
 
-						{/*  */}
+						{/* Movie revenue */}
 						<div className="mb-3">
 							<span className="font-semibold mr-2 text-[#A2C900]">Revenus :</span>{" "}
 							{movie.revenue.toLocaleString("en-US", { style: "currency", currency: "USD" })}
@@ -148,9 +150,19 @@ const MovieDetails = () => {
 					{/* Trailers player */}
 					{movieTrailers.length > 0 && (
 						<div className="col-span-12 w-full h-full my-7">
-							<h2 className="text-4xl  md:text-5xl font-semibold text-center mb-10 uppercase">Bande-Annonces</h2>
+							<h2 className="text-4xl md:text-5xl font-semibold text-center mb-10 uppercase">Bande-Annonces</h2>
 							<div className="col-span-12 w-full h-full">
 								<TrailersPlayer trailers={movieTrailers} />
+							</div>
+						</div>
+					)}
+
+					{/* Cast */}
+					{credits.length > 0 && (
+						<div className="col-span-12 w-full h-full my-7">
+							<h2 className="text-4xl md:text-5xl font-semibold text-center mb-10 uppercase">Distribution</h2>
+							<div className="col-span-12 w-full h-full">
+								<Cast credits={credits} />
 							</div>
 						</div>
 					)}

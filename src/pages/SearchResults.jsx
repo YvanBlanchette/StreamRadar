@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { searchStreams } from "@/actions/getActions";
-import StreamCard from "@/components/StreamCard";
-import { cn } from "@/lib/utils";
+import { searchStreams } from "@/actions/getActions"; // Function to fetch search results
+import StreamCard from "@/components/StreamCard"; // Component to display individual stream items
+import { cn } from "@/lib/utils"; // Utility function for conditional class names
 
 const SearchResults = () => {
 	// Extract queryTerm from the URL with useParams
@@ -39,13 +39,13 @@ const SearchResults = () => {
 	return (
 		<div className="w-full h-full">
 			<h2 className="mt-12 mb-2 text-center text-3xl md:text-4xl lg:text-5xl font-semibold uppercase w-full">Résultats de recherche</h2>
-			<p className={cn("mb-12 text-xl md:text-2xl lg:text-3xl text-center text-[#A2C900] italic", !streams && "text-red-700")}>
+			<p className={cn("mb-12 text-xl md:text-2xl lg:text-3xl text-center text-[#A2C900] italic", !streams.length && "text-red-700")}>
 				<span className="text-white text-xl not-italic">Terme recherché : </span>
 				{queryTerm}
 			</p>
 
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-8 pr-14">
-				{streams ? streams.map((stream) => <StreamCard key={stream.id} stream={stream} />) : <p className="text-xl text-white">Aucun résultat</p>}
+				{streams.length ? streams.map((stream) => <StreamCard key={stream.id} stream={stream} />) : <p className="text-xl text-white">Aucun résultat</p>}
 			</div>
 		</div>
 	);

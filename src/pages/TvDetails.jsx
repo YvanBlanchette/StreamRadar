@@ -1,66 +1,57 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchStreamDetails } from "@/actions/getActions";
-import { dateFormatted } from "@/lib/utils";
-import RatingStars from "@/components/RatingStars";
-import TrailersPlayer from "@/components/TrailersPlayer";
-import TopStreams from "@/components/ui/TopStreams";
-import Spinner from "@/components/Spinner";
-import Error from "@/components/Error";
+import { fetchDetails } from "@/actions/getActions"; // Function to fetch TV show details, trailers, and credits
+import { dateFormatted } from "@/lib/utils"; // Utility function to format dates
+import RatingStars from "@/components/RatingStars"; // Component to display TV show ratings
+import TrailersPlayer from "@/components/TrailersPlayer"; // Component to play trailers
+import TopStreams from "@/components/TopStreams"; // Component to show recommended TV shows
+import Spinner from "@/components/Spinner"; // Component to display a loading spinner
+import Error from "@/components/Error"; // Component to display errors
+import Cast from "@/components/Cast"; // Component to display cast information
 
 const TvShowDetails = () => {
-	const { id } = useParams();
-	const [tvShow, setTvShow] = useState(null);
-	const [tvShowTrailers, setTvShowTrailers] = useState([]);
-	const [tvShowCredits, setTvShowCredits] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const { id } = useParams(); // Extract the TV show ID from the URL parameters
+	const [tvShow, setTvShow] = useState(null); // State to store TV show details
+	const [tvShowTrailers, setTvShowTrailers] = useState([]); // State to store TV show trailers
+	const [tvShowCredits, setTvShowCredits] = useState([]); // State to store TV show credits
+	const [loading, setLoading] = useState(true); // State to manage loading state
+	const [error, setError] = useState(null); // State to manage errors
 
 	useEffect(() => {
-		// Fetch the TV show details, trailers, and credits
+		// Fetch TV show details, trailers, and credits
 		const fetchData = async () => {
 			try {
-				// Set loading state to true to show the spinner while fetching the data
-				setLoading(true);
+				setLoading(true); // Set loading to true while fetching data
 
-				// Fetching of the TV show details, trailers, and credits in parallel
-				const [tvShow, trailers, credits] = await Promise.all([
-					fetchStreamDetails(`tv/${id}`),
-					fetchStreamDetails(`tv/${id}/videos`),
-					fetchStreamDetails(`tv/${id}/credits`),
-				]);
+				// Fetch TV show details, trailers, and credits in parallel
+				const [tvShow, trailers, credits] = await Promise.all([fetchDetails(`tv/${id}`), fetchDetails(`tv/${id}/videos`), fetchDetails(`tv/${id}/credits`)]);
 
-				// Set the TV show details, trailers, and credits in the states
-				setTvShow(tvShow);
-				setTvShowTrailers(trailers.results.slice(0, 2) || []);
-				setTvShowCredits(credits || []);
-				console.log(tvShow);
-				console.log(trailers.results);
-				console.log(credits);
+				setTvShow(tvShow); // Set TV show details
+				setTvShowTrailers(trailers.results.slice(0, 2) || []); // Set up to 2 trailers
+				setTvShowCredits(credits || []); // Set TV show credits
+				console.log(tvShow, trailers.results, credits); // Log data for debugging
 			} catch (error) {
-				// Handle errors
-				setError("Failed to fetch data.");
-				console.error(error);
+				setError("Failed to fetch data."); // Set error message if fetching fails
+				console.error(error); // Log the error
 			} finally {
-				// Set loading state to false to hide the spinner
-				setLoading(false);
+				setLoading(false); // Set loading to false after data is fetched
 			}
 		};
 
-		// Call the fetchData function
-		fetchData();
-	}, [id]);
+		fetchData(); // Call the fetchData function
+	}, [id]); // Dependency array: re-fetch when `id` changes
 
-	// Loading state for TV show details
+	// Render loading spinner while data is being fetched
 	if (loading) {
 		return <Spinner />;
 	}
 
-	// Error state for TV show details
+	// Render error message if there is an error
 	if (error) {
 		return <Error />;
 	}
 
+	// Render error message if no TV show data is found
 	if (!tvShow) {
 		return <Error />;
 	}
@@ -112,24 +103,24 @@ const TvShowDetails = () => {
 								</div>
 							)}
 
-							{/* Tv show nmbre of seasons */}
+							{/* Number of seasons */}
 							<div className="mb-1">
 								<span className="font-semibold mr-2 text-[#A2C900]">Nombre de saisons :</span> {tvShow.number_of_seasons}
 							</div>
 
-							{/* Tv show nmbre of episodes */}
+							{/* Number of episodes */}
 							<div className="mb-1">
 								<span className="font-semibold mr-2 text-[#A2C900]">Nombre d'épisodes :</span> {tvShow.number_of_episodes}
 							</div>
 
-							{/* Tv show status */}
+							{/* TV show status */}
 							<div className="mb-1">
 								<span className="font-semibold mr-2 text-[#A2C900]">Statut :</span> {tvShow.status === "Returning Series" ? "En cours..." : "Terminé"}
 							</div>
 
 							<hr className="mt-5 mb-4 border-[#A2C900]/30" />
 
-							{/* Tv show production companies */}
+							{/* Production companies */}
 							<div className="mb-2">
 								<span className="font-semibold mr-2 text-[#A2C900]">Production Companies :</span>{" "}
 								{tvShow.production_companies
@@ -138,7 +129,7 @@ const TvShowDetails = () => {
 									.join(", ")}
 							</div>
 
-							{/* Tv show cast */}
+							{/* Cast */}
 							<div className="mb-1">
 								<span className="font-semibold mr-2 text-[#A2C900]">Distribution :</span>
 								{tvShowCredits.cast.slice(0, 5).map((cast) => (
@@ -150,15 +141,26 @@ const TvShowDetails = () => {
 						</div>
 
 						{/* Trailers player */}
-						<div className="col-span-12 w-full h-full my-7">
-							<h2 className="text-4xl  md:text-5xl font-semibold text-center mb-10 uppercase">Bande-Annonces</h2>
-							{tvShowTrailers.length > 0 && (
+						{tvShowTrailers.length > 0 && (
+							<div className="col-span-12 w-full h-full my-7">
+								<h2 className="text-4xl  md:text-5xl font-semibold text-center mb-10 uppercase">Bande-Annonces</h2>
 								<div className="col-span-12 w-full h-full">
 									<TrailersPlayer trailers={tvShowTrailers} />
 								</div>
-							)}
-						</div>
+							</div>
+						)}
 
+						{/* Cast */}
+						{tvShowCredits.cast.length > 0 && (
+							<div className="col-span-12 w-full h-full my-7">
+								<h2 className="text-4xl  md:text-5xl font-semibold text-center mb-10 uppercase">Distribution</h2>
+								<div className="col-span-12 w-full h-full">
+									<Cast credits={tvShowCredits.cast} />
+								</div>
+							</div>
+						)}
+
+						{/* Recommendations */}
 						<div className="col-span-12 w-full h-full mb-14">
 							<h2 className="text-5xl font-semibold text-center mb-10 uppercase">Vos Recommandations</h2>
 							<TopStreams endpoint={`tv/${id}/recommendations`} />

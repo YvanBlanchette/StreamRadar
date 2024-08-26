@@ -8,22 +8,22 @@ const StreamCard = ({ stream }) => {
 		<Dialog>
 			<Card className="bg-transparent border-none shadow-none">
 				<CardContent className="relative flex items-center justify-center">
-					{/* Carousel slides */}
+					{/* Image that triggers the dialog modal */}
 					<DialogTrigger>
 						<img
 							src={stream.poster_path ? `https://image.tmdb.org/t/p/w500/${stream.poster_path}` : `/assets/images/no-image.jpg`}
 							className="min-w-[250px] max-w-[260px] h-[350px] shadow-md shadow-black/50"
 							alt={stream.name}
-						/>{" "}
+						/>
 					</DialogTrigger>
 
-					{/* Stream details modal */}
+					{/* Modal content for stream details */}
 					<DialogContent
 						aria-describedby={stream.name}
 						className="p-0 w-full h-full overflow-y-scroll md:overflow-y-hidden md:w-[inherit] md:h-[inherit] pt-10 md:pt-0 bg-black md:shadow-lg dark:shadow-[#A2C900]/30"
 					>
 						<div className="flex flex-col md:flex-row">
-							{/* Stream poster */}
+							{/* Stream poster in the modal */}
 							<img
 								src={stream.poster_path ? `https://image.tmdb.org/t/p/w500/${stream.poster_path}` : `/assets/images/no-image.jpg`}
 								alt={stream.name}
@@ -32,11 +32,9 @@ const StreamCard = ({ stream }) => {
 
 							{/* Stream details */}
 							<div className="px-8 flex flex-col">
-								{/* Stream title */}
+								{/* Stream title with dynamic font size based on title length */}
 								<DialogTitle
-									className={cn(`text-center ,
-										(stream.name && stream.name.length > 30) || (stream.title && stream.title.length > 30) ? "text-xl" : "text-2xl"
-									 `)}
+									className={cn(`text-center`, (stream.name && stream.name.length > 30) || (stream.title && stream.title.length > 30) ? "text-xl" : "text-2xl")}
 								>
 									{stream.media_type === "tv" ? stream.name : stream.title}
 								</DialogTitle>
@@ -60,9 +58,9 @@ const StreamCard = ({ stream }) => {
 								{/* Stream rating stars */}
 								<RatingStars voteAverage={stream.vote_average} voteCount={stream.vote_count} />
 
-								{/* Stream details button */}
+								{/* Button linking to detailed view */}
 								<a
-									href={`/${stream.media_type === "tv" ? "tv" : "movie"}/${stream.id}`}
+									href={`/${stream.first_air_date ? "tv" : "movie"}/${stream.id}`}
 									className="bg-[#A2C900] text-white flex items-center justify-center hover:opacity-80 font-bold py-2 px-4 mb-6 uppercase transition-all duration-300"
 								>
 									Plus de détails
@@ -75,4 +73,5 @@ const StreamCard = ({ stream }) => {
 		</Dialog>
 	);
 };
+
 export default StreamCard;

@@ -5,25 +5,31 @@ import { links, socials } from "@/data/constants";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { useTheme } from "@/components/providers/ThemeProvider";
-import SearchField from "@/components/ui/SearchField";
+import SearchField from "@/components/SearchField";
 
 const Header = () => {
+	// Retrieve the current path to highlight the active link
 	const pathname = useLocation().pathname;
-	const { theme } = useTheme();
+	const { theme } = useTheme(); // Get the current theme for logo display
 
 	return (
 		<header className="w-full bg-transparent md:shadow-lg dark:shadow-[#A2C900]/30">
+			{/* Main container for header */}
 			<div className="w-[90vw] mx-auto max-w-7xl flex justify-between items-center py-6">
+				{/* Logo with conditional theme-based image */}
 				<Link to="/">
-					{theme === "dark" ? (
-						<img src="/assets/images/streamradar_logo--white.svg" alt="Logo de StreamRadar" className="h-20" />
-					) : (
-						<img src="/assets/images/streamradar_logo.svg" alt="Logo de StreamRadar" className="h-20" />
-					)}
+					<img
+						src={theme === "dark" ? "/assets/images/streamradar_logo--white.svg" : "/assets/images/streamradar_logo.svg"}
+						alt="Logo de StreamRadar"
+						className="h-20"
+					/>
 				</Link>
+
+				{/* Navigation and Drawer Trigger for mobile */}
 				<div className="flex justify-end items-center gap-4">
 					<nav>
 						<ul className="flex items-center justify-end gap-6">
+							{/* Desktop navigation links */}
 							{links.map((link) => (
 								<li
 									key={link.name}
@@ -36,6 +42,7 @@ const Header = () => {
 									<Link to={link.path}>{link.name}</Link>
 								</li>
 							))}
+							{/* Search field and mode toggle on desktop */}
 							<li className="hidden lg:block">
 								<SearchField />
 							</li>
@@ -45,11 +52,13 @@ const Header = () => {
 						</ul>
 					</nav>
 
+					{/* Drawer for mobile navigation */}
 					<Drawer>
 						<DrawerTrigger className="lg:hidden">
 							<Menu className="dark:text-white size-10" />
 						</DrawerTrigger>
 						<DrawerContent>
+							{/* Drawer header with close button */}
 							<DrawerHeader>
 								<DrawerClose className="text-end">
 									<Button variant="ghost">
@@ -58,17 +67,19 @@ const Header = () => {
 								</DrawerClose>
 							</DrawerHeader>
 							<DrawerBody className="-translate-y-[30px]">
+								{/* Logo inside the drawer */}
 								<DrawerTitle>
 									<Link to="/">
-										{theme === "dark" ? (
-											<img src="/assets/images/streamradar_logo--white.svg" alt="Logo de StreamRadar" className="h-20 md:h-28 mx-auto" />
-										) : (
-											<img src="/assets/images/streamradar_logo.svg" alt="Logo de StreamRadar" className="h-20 md:h-28 mx-auto" />
-										)}
+										<img
+											src={theme === "dark" ? "/assets/images/streamradar_logo--white.svg" : "/assets/images/streamradar_logo.svg"}
+											alt="Logo de StreamRadar"
+											className="h-20 md:h-28 mx-auto"
+										/>
 									</Link>
 								</DrawerTitle>
 								<nav className="h-full">
-									<ul className=" flex flex-col justify-evenly items-center h-full pt-28 pb-40">
+									{/* Drawer navigation links */}
+									<ul className="flex flex-col justify-evenly items-center h-full pt-28 pb-40">
 										{links.map((link) => (
 											<li
 												key={link.name}
@@ -82,6 +93,7 @@ const Header = () => {
 									</ul>
 								</nav>
 							</DrawerBody>
+							{/* Drawer footer with social links */}
 							<DrawerFooter>
 								<ul className="flex items-center justify-center gap-10 pb-10">
 									{socials.map((social) => {
@@ -91,6 +103,7 @@ const Header = () => {
 												<a
 													href={social.href}
 													target="_blank"
+													rel="noopener noreferrer"
 													className="dark:text-white dark:hover:text-secondary hover:text-secondary text-2xl md:text-4xl transition-all duration-200"
 												>
 													<IconComponent />

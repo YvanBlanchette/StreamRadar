@@ -1,7 +1,7 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 import { fetchMostPopulars } from "@/actions/getActions";
-import StreamCard from "../StreamCard";
+import StreamCard from "./StreamCard";
 
 const TopStreams = ({ endpoint }) => {
 	// State to store the streams data
@@ -23,7 +23,7 @@ const TopStreams = ({ endpoint }) => {
 					setStreams(results);
 				}
 
-				console.log(results);
+				console.log(results); // Log results for debugging
 			} catch (error) {
 				// Handle errors
 				console.error(error);
@@ -52,6 +52,7 @@ const TopStreams = ({ endpoint }) => {
 						</CarouselItem>
 					))}
 				</CarouselContent>
+				{/* Previous and next buttons for the carousel, visible on medium screens and larger */}
 				<CarouselPrevious className="hidden md:block" />
 				<CarouselNext className="hidden md:block" />
 			</Carousel>

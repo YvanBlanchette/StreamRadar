@@ -1,13 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import HomePage from "./pages/HomePage";
-import ErrorPage from "./pages/ErrorPage";
-import New from "./pages/New";
-import Movies from "./pages/Movies";
-import TvShows from "./pages/TvShows";
-import MovieDetails from "./pages/MovieDetails";
-import TvDetails from "./pages/TvDetails";
-import SearchResults from "./pages/SearchResults";
+import HomePage from "@/pages/HomePage";
+import ErrorPage from "@/pages/ErrorPage";
+import New from "@/pages/New";
+import Movies from "@/pages/Movies";
+import TvShows from "@/pages/TvShows";
+import MovieDetails from "@/pages/MovieDetails";
+import TvDetails from "@/pages/TvDetails";
+import SearchResults from "@/pages/SearchResults";
+import CastDetails from "@/pages/CastDetails";
 
 export const Router = createBrowserRouter([
 	{
@@ -37,6 +38,10 @@ export const Router = createBrowserRouter([
 			{
 				path: "/tv/:id",
 				element: <TvDetails />,
+			},
+			{
+				path: "/cast/:id",
+				element: <CastDetails />,
 			},
 			{
 				path: "/search-results/:queryTerm",
