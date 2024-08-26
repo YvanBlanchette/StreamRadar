@@ -1,17 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { links, socials } from "@/data/constants";
-import { ModeToggle } from "./ModeToggle";
-import { Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "./ui/drawer";
-import { useTheme } from "./providers/ThemeProvider";
+import { ModeToggle } from "@/components/ModeToggle";
+import { Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { useTheme } from "@/components/providers/ThemeProvider";
+import SearchField from "@/components/ui/SearchField";
 
 const Header = () => {
 	const pathname = useLocation().pathname;
 	const { theme } = useTheme();
 
 	return (
-		<header className="w-full bg-transparent md:shadow-lg dark:shadow-[#A2C900]/30 md:mb-4">
+		<header className="w-full bg-transparent md:shadow-lg dark:shadow-[#A2C900]/30">
 			<div className="w-[90vw] mx-auto max-w-7xl flex justify-between items-center py-6">
 				<Link to="/">
 					{theme === "dark" ? (
@@ -35,6 +36,9 @@ const Header = () => {
 									<Link to={link.path}>{link.name}</Link>
 								</li>
 							))}
+							<li className="hidden lg:block">
+								<SearchField />
+							</li>
 							<li className="hidden lg:block">
 								<ModeToggle />
 							</li>

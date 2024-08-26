@@ -5,7 +5,7 @@ import { fetchStreamDetails } from "@/actions/getActions";
 import { runtimeFormatted, dateFormatted } from "@/lib/utils";
 import RatingStars from "@/components/RatingStars";
 import TrailersPlayer from "@/components/TrailersPlayer";
-import TopTenStreams from "@/components/ui/TopTenStreams";
+import TopStreams from "@/components/ui/TopStreams";
 import Spinner from "@/components/Spinner";
 import Error from "@/components/Error";
 
@@ -64,7 +64,11 @@ const MovieDetails = () => {
 					{/* Movie poster */}
 					<div className="col-span-12 md:col-span-4 mx-auto">
 						<a href={movie.homepage || "#"} target="_blank" rel="noopener noreferrer" className="p-4">
-							<img className="w-full h-auto object-cover" src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+							<img
+								className="w-full h-auto object-cover"
+								src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : `/assets/images/no-image.jpg`}
+								alt={movie.title}
+							/>
 						</a>
 					</div>
 
@@ -143,15 +147,18 @@ const MovieDetails = () => {
 
 					{/* Trailers player */}
 					{movieTrailers.length > 0 && (
-						<div className="col-span-12 w-full h-full md:my-14">
-							<TrailersPlayer trailers={movieTrailers} />
+						<div className="col-span-12 w-full h-full my-7">
+							<h2 className="text-4xl  md:text-5xl font-semibold text-center mb-10 uppercase">Bande-Annonces</h2>
+							<div className="col-span-12 w-full h-full">
+								<TrailersPlayer trailers={movieTrailers} />
+							</div>
 						</div>
 					)}
 
 					{/* Recommendations */}
-					<div className="col-span-12 w-full h-full my-14">
+					<div className="col-span-12 w-full h-full mb-14">
 						<h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-center mb-10 uppercase">Vos Recommandations</h2>
-						<TopTenStreams endpoint={`movie/${id}/recommendations`} />
+						<TopStreams endpoint={`movie/${id}/recommendations`} />
 					</div>
 				</div>
 			</div>

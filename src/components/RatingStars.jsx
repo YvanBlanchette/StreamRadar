@@ -1,11 +1,14 @@
 import { FaStar, FaStarHalf } from "react-icons/fa6";
 
 const RatingStars = ({ voteAverage, voteCount }) => {
-	// Convert vote_average (out of 10) to stars (out of 5)
+	// Convert voteAverage (out of 10) to stars (out of 5)
 	const convertToStars = (voteAverage) => {
+		if (typeof voteAverage !== "number" || isNaN(voteAverage)) {
+			return 0;
+		}
 		const stars = (voteAverage / 10) * 5;
-		// Round to nearest half star
-		return Math.round(stars * 2) / 2;
+		// Round up to the nearest whole number
+		return Math.ceil(stars);
 	};
 
 	// Render stars based on the number
@@ -39,11 +42,13 @@ const RatingStars = ({ voteAverage, voteCount }) => {
 		);
 	};
 
+	const stars = convertToStars(voteAverage);
+
 	return (
 		<div className="flex flex-col gap-1 mt-2 mb-4">
-			{renderStars(convertToStars(voteAverage))}
+			{renderStars(stars)}
 			<span className="flex text-sm">
-				{convertToStars(voteAverage)} étoiles &nbsp; ( {voteCount} votes )
+				{stars} étoiles &nbsp; ( {voteCount} votes )
 			</span>
 		</div>
 	);

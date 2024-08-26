@@ -32,7 +32,7 @@ const TrailersPlayer = ({ trailers }) => {
 	return (
 		<div className="w-full h-auto mx-auto flex items-center gap-6">
 			<div className="w-full lg:w-auto lg:h-[500px] aspect-video mx-auto px-4 lg:px-0">
-				<iframe src={`https://www.youtube.com/embed/${activeTrailer.key}`} title={activeTrailer.name} className="w-full h-full" loading="lazy"></iframe>
+				<iframe src={`https://www.youtube.com/embed/${activeTrailer.key}`} title={activeTrailer.name} className="w-full h-full"></iframe>
 			</div>
 			<div className="w-auto lg:h-[500px] m-auto hidden lg:flex flex-col">
 				<Carousel

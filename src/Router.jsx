@@ -7,6 +7,7 @@ import Movies from "./pages/Movies";
 import TvShows from "./pages/TvShows";
 import MovieDetails from "./pages/MovieDetails";
 import TvDetails from "./pages/TvDetails";
+import SearchResults from "./pages/SearchResults";
 
 export const Router = createBrowserRouter([
 	{
@@ -36,6 +37,10 @@ export const Router = createBrowserRouter([
 			{
 				path: "/tv/:id",
 				element: <TvDetails />,
+			},
+			{
+				path: "/search-results/:queryTerm",
+				element: <SearchResults />,
 			},
 			// Error Page
 			{

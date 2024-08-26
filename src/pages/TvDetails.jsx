@@ -4,7 +4,7 @@ import { fetchStreamDetails } from "@/actions/getActions";
 import { dateFormatted } from "@/lib/utils";
 import RatingStars from "@/components/RatingStars";
 import TrailersPlayer from "@/components/TrailersPlayer";
-import TopTenStreams from "@/components/ui/TopTenStreams";
+import TopStreams from "@/components/ui/TopStreams";
 import Spinner from "@/components/Spinner";
 import Error from "@/components/Error";
 
@@ -150,15 +150,18 @@ const TvShowDetails = () => {
 						</div>
 
 						{/* Trailers player */}
-						{tvShowTrailers.length > 0 && (
-							<div className="col-span-12 w-full h-full lg:my-14">
-								<TrailersPlayer trailers={tvShowTrailers} />
-							</div>
-						)}
+						<div className="col-span-12 w-full h-full my-7">
+							<h2 className="text-4xl  md:text-5xl font-semibold text-center mb-10 uppercase">Bande-Annonces</h2>
+							{tvShowTrailers.length > 0 && (
+								<div className="col-span-12 w-full h-full">
+									<TrailersPlayer trailers={tvShowTrailers} />
+								</div>
+							)}
+						</div>
 
-						<div className="col-span-12 w-full h-full my-14">
+						<div className="col-span-12 w-full h-full mb-14">
 							<h2 className="text-5xl font-semibold text-center mb-10 uppercase">Vos Recommandations</h2>
-							{/* <TopTenStreams endpoint={`tvShow/${id}/recommendations`} /> */}
+							<TopStreams endpoint={`tv/${id}/recommendations`} />
 						</div>
 					</div>
 				)}
