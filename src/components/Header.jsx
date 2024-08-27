@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { links, socials } from "@/data/constants";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import { useTheme } from "@/components/providers/ThemeProvider";
+import { useTheme } from "@/providers/ThemeProvider";
 import SearchField from "@/components/SearchField";
 
 const Header = () => {
 	// Retrieve the current path to highlight the active link
 	const pathname = useLocation().pathname;
-	const { theme } = useTheme(); // Get the current theme for logo display
+	const { theme } = useTheme(); // Get the current theme for Light/Dark mode
 
 	return (
 		<header className="w-full bg-transparent md:shadow-lg dark:shadow-[#A2C900]/30">

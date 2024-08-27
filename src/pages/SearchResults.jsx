@@ -20,9 +20,6 @@ const SearchResults = () => {
 
 				// Set the fetched streams data in the state
 				setStreams(streams);
-
-				// Log the fetched streams data for development purposes
-				console.log(streams);
 			} catch (error) {
 				// Handle errors
 				console.error(error);

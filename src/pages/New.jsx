@@ -27,8 +27,8 @@ const New = () => {
 				{providers.map((provider) => (
 					<section key={provider.provider_id} id={provider.provider_name}>
 						{/* Title of the section with the logo of the provider */}
-						<h3 className="text-4xl font-semibold mt-14 mb-12 uppercase ml-[5vw] flex items-center gap-4">
-							Les <span className="text-[#A2C900] font-black">nouveaux films</span> sur {provider.provider_name}{" "}
+						<h3 className="text-base md:text-2xl lg:text-4xl font-semibold mt-14 mb-6 uppercase lg:ml-[5vw] flex items-center justify-center gap-1 lg:gap-4">
+							<span className="text-[#A2C900] font-black">Nouveautées</span> sur {provider.provider_name}{" "}
 							<img
 								src={`https://image.tmdb.org/t/p/original/${provider.logo_path}`}
 								alt={`Logo de ${provider.provider_name}`}

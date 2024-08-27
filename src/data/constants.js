@@ -55,7 +55,7 @@ export const providers = [
   },
   {
     provider_id: 119,
-    provider_name: "Amazon Primne Video",
+    provider_name: "Prime Video",
     logo_path: "/dQeAar5H991VYporEjUspolDarG.jpg",
   },
   {

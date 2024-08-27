@@ -22,8 +22,6 @@ const TopStreams = ({ endpoint }) => {
 					// Set the fetched streams data in the state
 					setStreams(results);
 				}
-
-				console.log(results); // Log results for debugging
 			} catch (error) {
 				// Handle errors
 				console.error(error);

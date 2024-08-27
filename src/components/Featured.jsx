@@ -30,7 +30,6 @@ const Featured = ({ endpoint, title }) => {
 
 				// Update state with the fetched streams
 				setNowPlaying(streams.results);
-				console.log(streams.results);
 			} catch (err) {
 				// Set error state if an error occurs
 				setError("Failed to fetch data.");
@@ -74,30 +73,30 @@ const Featured = ({ endpoint, title }) => {
 		>
 			<CarouselContent>
 				{nowPlaying.map((stream) => (
-					<CarouselItem key={stream.id} className="relative w-full h-[100vh] flex flex-col items-center justify-center">
+					<CarouselItem key={stream.id} className="relative w-full min-h-[110vh] flex flex-col items-center justify-center">
 						<div className="absolute mx-auto">
 							{/* Carousel title */}
-							<h2 className="col-span-2 text-6xl font-bold mb-8 text-center uppercase">{title}</h2>
-							<div className="flex justify-center gap-4 mx-auto">
+							<h2 className="col-span-2 text-2xl md:text-4xl lg:text-6xl font-bold mb-8 text-center uppercas">{title}</h2>
+							<div className="flex flex-col lg:flex-row justify-center items-center gap-4 mx-auto">
 								{/* Poster image */}
-								<div className="h-[450px] aspect-[9/13] cols-span-2 md:col-span-1 ml-auto">
+								<div className="h-[450px] aspect-[2/2] cols-span-2 md:col-span-1 ml-auto flex flex-col justify-center items-center px-[5vw] mx-auto">
 									<img
 										src={`https://image.tmdb.org/t/p/original/${stream.poster_path}`}
 										alt={stream.media_type === "movie" ? stream.title : stream.name}
 										className="w-full h-full object-cover mr-2"
 									/>
 								</div>
-								<div className="cols-span-2 md:col-span-1 z-20 w-[500px] ml-2">
+								<div className="cols-span-2 md:col-span-1 z-20  ml-2 flex flex-col items-center lg:items-start px-[5%] mx-auto">
 									{/* Stream title */}
 									<h3 className="text-3xl font-bold mb-2">{stream.title || stream.name}</h3>
 									{/* Rating stars */}
 									<RatingStars voteAverage={stream.vote_average} voteCount={stream.vote_count} />
 									{/* Stream overview */}
-									<p className="text-justify text-lg pb-6">{stream.overview}</p>
+									<p className="text-justify lg:text-lg text-base pb-6">{stream.overview}</p>
 									{/* Details button */}
 									<a
 										href={stream.first_air_date ? `/tv/${stream.id}` : `/movie/${stream.id}`}
-										className="bg-[#A2C900] text-white flex items-center justify-center hover:opacity-80 font-bold py-2 px-4 mb-6 uppercase transition-all duration-300 w-fit cursor-pointer"
+										className="bg-[#A2C900] text-white flex items-center justify-center hover:opacity-80 font-bold py-2 px-4 mb-6 uppercase transition-all duration-300 w-full lg:w-fit cursor-pointer"
 									>
 										Tous les détails
 									</a>

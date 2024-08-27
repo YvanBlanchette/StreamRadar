@@ -6,8 +6,7 @@ const API_BEARER_TOKEN = import.meta.env.VITE_API_BEARER_TOKEN;
 //! -----> Fetch my data from TMDB API <-----//
 export async function fetchAPIData(endpoint) {
   try {
-    // Log the full URL for debugging
-    console.log(`Fetching from URL: ${API_URL}${endpoint}`);
+
 
     const response = await axios.get(`${API_URL}${endpoint}`, {
       params: {

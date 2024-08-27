@@ -29,7 +29,6 @@ const TvShowDetails = () => {
 				setTvShow(tvShow); // Set TV show details
 				setTvShowTrailers(trailers.results.slice(0, 2) || []); // Set up to 2 trailers
 				setTvShowCredits(credits || []); // Set TV show credits
-				console.log(tvShow, trailers.results, credits); // Log data for debugging
 			} catch (error) {
 				setError("Failed to fetch data."); // Set error message if fetching fails
 				console.error(error); // Log the error

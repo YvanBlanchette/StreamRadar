@@ -34,8 +34,6 @@ const CastDetails = () => {
 
 				// Set the fetched cast details to state
 				setCast(results);
-
-				console.log(results); // Log the results for debugging
 			} catch (error) {
 				// Set error state if there is an issue with fetching data
 				setError(error);
