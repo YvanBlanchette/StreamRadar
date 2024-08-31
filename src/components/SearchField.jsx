@@ -25,29 +25,33 @@ const SearchField = () => {
 
 	// Handle button click to either open/close the search field or perform the search
 	const handleButtonClick = (e) => {
-		e.preventDefault(); // Prevent default form submission
+		// Prevent default form submission
+		e.preventDefault();
 
-		const sanitizedValue = sanitizeInput(inputValue); // Sanitize the input
+		// Sanitize the input to prevent XSS attacks
+		const sanitizedValue = sanitizeInput(inputValue);
 
 		if (isOpened && sanitizedValue) {
 			// If the search field is opened and input is not empty, navigate to search results page
 			navigate(`/search-results/${encodeURIComponent(sanitizedValue)}`);
-			setInputValue(""); // Clear input field
-			setIsOpened(false); // Close search field
+			// Clear the input field
+			setInputValue("");
+			// Close the search field
+			setIsOpened(false);
 		} else {
-			// Toggle the visibility of the search field
+			// Otherwise, toggle the visibility of the search field
 			setIsOpened(!isOpened);
 		}
 	};
 
-	// Focus on the input field when the search field is opened
+	// Function to focus on the input field when the search field is opened
 	useEffect(() => {
 		if (isOpened && inputRef.current) {
 			inputRef.current.focus();
 		}
 	}, [isOpened]);
 
-	// Close the search field if a click is detected outside of it
+	// Close the search field if the user clicks outside of it
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (formRef.current && !formRef.current.contains(event.target)) {
@@ -55,7 +59,8 @@ const SearchField = () => {
 			}
 		};
 
-		document.addEventListener("mousedown", handleClickOutside); // Add event listener for outside clicks
+		// Add an event listener for outside clicks
+		document.addEventListener("mousedown", handleClickOutside);
 
 		// Cleanup the event listener on component unmount
 		return () => {
@@ -70,16 +75,17 @@ const SearchField = () => {
 				ref={inputRef}
 				className={cn(
 					"flex h-10 rounded-none bg-[#A2C900]/15 px-3 py-1 text-md ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 w-[350px] transition-all duration-500",
-					!isOpened && "bg-transparent w-0" // Hide input when search field is closed
+					!isOpened && "bg-transparent w-0"
 				)}
 				value={inputValue}
 				onChange={(e) => setInputValue(e.target.value)}
 			/>
 			<button
 				type="submit"
+				title="Recherche"
 				className={cn(
-					"flex items-center justify-center rounded-none bg-[#A2C900]/20 hover:bg-[#A2C900]/30 px-3 py-1 text-sm disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300",
-					!isOpened && "bg-transparent" // Hide button when search field is closed
+					"flex items-center justify-center rounded-none bg-[#A2C900]/20 hover:opacity-70 px-3 py-1 text-sm disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300",
+					!isOpened && "bg-transparent"
 				)}
 			>
 				<FaMagnifyingGlass className="text-xl text-[#A2C900]" />

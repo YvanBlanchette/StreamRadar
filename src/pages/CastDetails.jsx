@@ -10,7 +10,7 @@ import { FaFacebook, FaInstagram, FaTiktok, FaTwitter, FaYoutube } from "react-i
 import ProfileGallery from "@/components/ProfileGallery";
 
 const CastDetails = () => {
-	// Get the Cast id from the URL parameters
+	// Get the Cast id from the URL params
 	const { id } = useParams();
 
 	// State to store the cast details

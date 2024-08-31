@@ -36,20 +36,24 @@ const MovieDetails = () => {
 
 				// Update state with fetched data
 				setMovie(movie);
-				setMovieTrailers(trailers.results.slice(0, 2) || []); // Take only the first two trailers
-				setCredits(credits.cast.slice(0, 20) || []); // Take only the first 20 cast members
+				// Set the first three trailers
+				setMovieTrailers(trailers.results.slice(0, 3) || []);
+				// Set only the first 20 cast members
+				setCredits(credits.cast.slice(0, 20) || []);
 			} catch (error) {
-				setError("Failed to fetch data."); // Set error message
+				// Set error message
+				setError("Une erreur est survenue lors du chargement des films.");
 				console.error(error);
 			} finally {
-				setLoading(false); // Hide loading spinner
+				// Hide loading spinner
+				setLoading(false);
 			}
 		};
-
-		fetchData(); // Fetch data when component mounts
+		// Fetch data when component mounts
+		fetchData();
 	}, [id]);
 
-	// Return spinner while loading
+	// Show the spinner while loading
 	if (loading) {
 		return <Spinner />;
 	}

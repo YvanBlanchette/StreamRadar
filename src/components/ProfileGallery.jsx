@@ -4,7 +4,7 @@ import Fade from "embla-carousel-fade";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const ProfileGallery = ({ images }) => {
-	// Create a ref for the carousel plugin instance to control autoplay
+	// Ref for the carousel plugin to control the autoplay
 	const plugin = useRef(
 		Autoplay({
 			delay: 3000, // Set delay for autoplay
@@ -20,19 +20,15 @@ const ProfileGallery = ({ images }) => {
 				Fade(),
 			]}
 			className="w-full h-full"
-			// Pause autoplay on mouse enter and resume on mouse leave
+			// Pause autoplay on mouse over
 			onMouseEnter={() => plugin.current.stop()}
 			onMouseLeave={() => plugin.current.reset()}
 		>
 			<CarouselContent>
-				{/* Map through the images and create a carousel item for each */}
+				{/* Map through the images and create a carousel item for each image */}
 				{images.map((image, index) => (
 					<CarouselItem key={index}>
-						<img
-							src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
-							alt="Photo de profil" // Alt text for accessibility
-							className="w-full h-full object-cover" // Ensure images cover their containers
-						/>
+						<img src={`https://image.tmdb.org/t/p/w500/${image.file_path}`} alt="Photo de profil" className="w-full h-full object-cover" />
 					</CarouselItem>
 				))}
 			</CarouselContent>

@@ -6,16 +6,16 @@ import { fetchTrendingStreams } from "@/actions/getActions";
 import { cn } from "@/lib/utils";
 import RatingStars from "./RatingStars";
 
-// Component to display a carousel of trending streams with detailed modals
+// Component to display a carousel of trending streams (tv shows/movies)
 const EmblaCarousel = ({ options, endpoint }) => {
-	// State to hold the fetched trending streams data
+	// State to hold the fetched data
 	const [trendingStreams, setTrendingStreams] = useState([]);
 
-	// Fetch trending streams data on component mount
+	// Function to fetch the trending streams data
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				// Fetch streams data using provided endpoint
+				// Fetching streams data
 				const streams = await fetchTrendingStreams(endpoint);
 				setTrendingStreams(streams);
 			} catch (error) {
@@ -26,7 +26,7 @@ const EmblaCarousel = ({ options, endpoint }) => {
 		fetchData();
 	}, [endpoint]);
 
-	// Initialize Embla carousel with auto-scroll plugin
+	// Initializing the Embla carousel
 	const [emblaRef, emblaApi] = useEmblaCarousel(options, [
 		AutoScroll({
 			playOnInit: true,
@@ -39,7 +39,7 @@ const EmblaCarousel = ({ options, endpoint }) => {
 	]);
 	const [isPlaying, setIsPlaying] = useState(true);
 
-	// Handle carousel auto-scroll state changes
+	// Function to handle the carousel auto-scroll state changes
 	useEffect(() => {
 		const autoScroll = emblaApi?.plugins()?.autoScroll;
 		if (!autoScroll) return;
@@ -66,7 +66,7 @@ const EmblaCarousel = ({ options, endpoint }) => {
 										className="embla__slide__img relative h-full shadow-md shadow-black/50"
 										alt={stream.title}
 									/>
-									{/* Rating and media type overlay */}
+									{/* Rating and media type label */}
 									<div className="absolute px-2 w-16 h-16 z-50 top-0 right-0 text-xl font-bold bg-gradient-to-bl from-[#47C300]/80 to-[#A2C900]/80 rounded-bl-3xl flex flex-col items-center justify-center">
 										<span className="text-xs text-center">{stream.media_type === "tv" ? "Série TV" : "Film"}</span>
 										{stream.vote_average.toFixed(1)}
@@ -74,16 +74,16 @@ const EmblaCarousel = ({ options, endpoint }) => {
 								</div>
 							</DialogTrigger>
 
-							{/* Modal displaying detailed stream information */}
+							{/* Modal displaying the detailed stream information */}
 							<DialogContent
 								aria-describedby={stream.name}
 								className="p-0 w-full h-full overflow-y-scroll md:overflow-y-hidden md:w-[inherit] md:h-[inherit] pt-10 md:pt-0 bg-black md:shadow-lg dark:shadow-[#A2C900]/30"
 							>
 								<div className="flex flex-col md:flex-row">
-									{/* Stream poster in the modal */}
+									{/* Stream poster */}
 									<img src={`https://image.tmdb.org/t/p/w500/${stream.poster_path}`} alt={stream.name} className="w-[300px] h-auto mx-auto object-cover" />
 
-									{/* Stream details section */}
+									{/* Stream details */}
 									<div className="px-8 flex flex-col">
 										{/* Stream title */}
 										<DialogTitle

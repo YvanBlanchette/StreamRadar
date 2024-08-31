@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "@/providers/ThemeProvider";
 import { socials, links } from "@/data/constants";
-import { Checkbox } from "@/components/ui/checkbox";
 import FooterNewsletterForm from "./FooterNewsletterForm";
 
 const Footer = () => {
+	// Extracting the theme (Light/Dark mode)
 	const { theme } = useTheme();
 
 	return (
 		<footer className="w-full bg-gray-100 shadow-xl dark:bg-[#131313]">
 			<section className="grid grid-cols-1 lg:grid-cols-3 min-h-[200px] bg-gray-200 dark:bg-[#252525] pt-6 px-[5%]">
 				<div className="flex flex-col justify-center">
-					{/* Logo with conditional theme-based image */}
+					{/* Logo with conditional theme-based image (Light/Dark mode) */}
 					<Link to="/" className="flex items-center justify-center lg:justify-start">
 						<img
 							src={theme === "dark" ? "/assets/images/streamradar_logo--white.svg" : "/assets/images/streamradar_logo.svg"}

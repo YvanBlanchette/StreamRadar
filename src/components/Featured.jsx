@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import Error from "./Error";
 
-// Component to display a carousel of currently playing movies or shows
+// Component to display a carousel of currently playing streams (tv shows/movies)
 const Featured = ({ endpoint, title }) => {
 	// State to hold the list of currently playing streams
 	const [nowPlaying, setNowPlaying] = useState([]);
@@ -15,11 +15,11 @@ const Featured = ({ endpoint, title }) => {
 	// State to manage the loading state
 	const [loading, setLoading] = useState(true);
 
-	// State to manage any errors that occur during data fetching
+	// State to manage potential errors
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		// Function to fetch data from the provided endpoint
+		// Function to fetch data
 		const fetchData = async () => {
 			try {
 				// Set loading to true before fetching
@@ -32,7 +32,7 @@ const Featured = ({ endpoint, title }) => {
 				setNowPlaying(streams.results);
 			} catch (err) {
 				// Set error state if an error occurs
-				setError("Failed to fetch data.");
+				setError("Une erreur est survenue lors du chargement des Streams.");
 				console.error(err);
 			} finally {
 				// Turn off loading indicator
@@ -56,10 +56,11 @@ const Featured = ({ endpoint, title }) => {
 
 	// Display an error message if no data is available
 	if (nowPlaying.length === 0) {
-		return <Error message="Aucun film à afficher pour le moment." />;
+		return <Error message="Aucun Stream à afficher pour le moment." />;
 	}
 
 	return (
+		// Carousel options
 		<Carousel
 			plugins={[
 				Autoplay({
@@ -89,7 +90,7 @@ const Featured = ({ endpoint, title }) => {
 								<div className="cols-span-2 md:col-span-1 z-20  ml-2 flex flex-col items-center lg:items-start px-[5%] mx-auto">
 									{/* Stream title */}
 									<h3 className="text-3xl font-bold mb-2">{stream.title || stream.name}</h3>
-									{/* Rating stars */}
+									{/* Stream Rating */}
 									<RatingStars voteAverage={stream.vote_average} voteCount={stream.vote_count} />
 									{/* Stream overview */}
 									<p className="text-justify lg:text-lg text-base pb-6">{stream.overview}</p>

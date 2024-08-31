@@ -21,21 +21,21 @@ const TrailersPlayer = ({ trailers }) => {
 	useEffect(() => {
 		const updateShowArrows = () => {
 			if (carouselRef.current) {
-				const itemsHeight = carouselRef.current.scrollHeight; // Total height of carousel content
-				const containerHeight = carouselRef.current.clientHeight; // Height of carousel container
-				setShowArrows(itemsHeight > containerHeight); // Show arrows if content is taller than container
+				const itemsHeight = carouselRef.current.scrollHeight;
+				const containerHeight = carouselRef.current.clientHeight;
+				setShowArrows(itemsHeight > containerHeight);
 			}
 		};
 
-		updateShowArrows(); // Initial check
-		window.addEventListener("resize", updateShowArrows); // Update arrows visibility on window resize
+		updateShowArrows();
+		window.addEventListener("resize", updateShowArrows);
 
 		// Cleanup event listener on component unmount
 		return () => window.removeEventListener("resize", updateShowArrows);
 	}, [trailers]);
 
 	if (!activeTrailer) {
-		return null; // Return null if there is no active trailer
+		return null;
 	}
 
 	return (
@@ -53,7 +53,7 @@ const TrailersPlayer = ({ trailers }) => {
 						align: "start",
 						loop: true,
 					}}
-					orientation="vertical" // Carousel orientation
+					orientation="vertical"
 					className="w-full"
 				>
 					{/* Conditionally render previous arrow */}
@@ -61,13 +61,9 @@ const TrailersPlayer = ({ trailers }) => {
 
 					<CarouselContent className="h-[calc(100%-80px)] flex flex-col gap-y-4">
 						{trailers.map((trailer, index) => (
-							<CarouselItem
-								key={trailer.id}
-								className="flex-grow"
-								style={{ height: "calc(100% / 3 - 1rem)" }} // Adjust height to fit 3 thumbnails
-							>
+							<CarouselItem key={trailer.id} className="flex-grow" style={{ height: "calc(100% / 3 - 1rem)" }}>
 								<div
-									onClick={() => setActiveTrailer(trailer)} // Set clicked trailer as active
+									onClick={() => setActiveTrailer(trailer)}
 									className="aspect-video cursor-pointer opacity-60 hover:opacity-100 transition-opacity duration-300"
 								>
 									<img

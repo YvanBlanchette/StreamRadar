@@ -1,20 +1,23 @@
 import { FaStar, FaStarHalf } from "react-icons/fa6";
 
 const RatingStars = ({ voteAverage, voteCount }) => {
-	// Convert voteAverage (out of 10) to a star rating (out of 5)
+	// Function to convert voteAverage (out of 10) to a star rating (out of 5)
 	const convertToStars = (voteAverage) => {
+		// Return 0 if voteAverage is not a number
 		if (typeof voteAverage !== "number" || isNaN(voteAverage)) {
-			return 0; // Return 0 if voteAverage is invalid
+			return 0;
 		}
 		const stars = (voteAverage / 10) * 5;
 		// Round up to the nearest whole number
 		return Math.ceil(stars);
 	};
 
-	// Render the stars based on the rating
+	// Function to render the stars based on the new rating
 	const renderStars = (stars) => {
-		const fullStars = Math.floor(stars); // Full stars count
-		const halfStar = stars % 1 !== 0; // Check if there's a half star
+		// Full stars count
+		const fullStars = Math.floor(stars);
+		// Check if there's a half star
+		const halfStar = stars % 1 !== 0;
 
 		return (
 			<div className="flex items-center text-xl gap-1">
@@ -45,13 +48,14 @@ const RatingStars = ({ voteAverage, voteCount }) => {
 		);
 	};
 
-	const stars = convertToStars(voteAverage); // Calculate the number of stars
+	// Calculate the number of stars
+	const stars = convertToStars(voteAverage);
 
 	return (
 		<div className="flex flex-col gap-1 mt-2 mb-4">
 			{/* Display the stars */}
 			{renderStars(stars)}
-			{/* Display the rating and vote count */}
+			{/* Display the rating and number of votes */}
 			<span className="flex text-sm">
 				{stars} étoiles &nbsp; ({voteCount} votes)
 			</span>

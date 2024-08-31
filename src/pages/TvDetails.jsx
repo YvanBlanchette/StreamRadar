@@ -1,44 +1,52 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchDetails } from "@/actions/getActions"; // Function to fetch TV show details, trailers, and credits
-import { dateFormatted } from "@/lib/utils"; // Utility function to format dates
-import RatingStars from "@/components/RatingStars"; // Component to display TV show ratings
-import TrailersPlayer from "@/components/TrailersPlayer"; // Component to play trailers
-import TopStreams from "@/components/TopStreams"; // Component to show recommended TV shows
-import Spinner from "@/components/Spinner"; // Component to display a loading spinner
-import Error from "@/components/Error"; // Component to display errors
-import Cast from "@/components/Cast"; // Component to display cast information
+import { fetchDetails } from "@/actions/getActions";
+import { dateFormatted } from "@/lib/utils";
+import RatingStars from "@/components/RatingStars";
+import TrailersPlayer from "@/components/TrailersPlayer"; //
+import TopStreams from "@/components/TopStreams";
+import Spinner from "@/components/Spinner";
+import Error from "@/components/Error";
+import Cast from "@/components/Cast";
 
 const TvShowDetails = () => {
-	const { id } = useParams(); // Extract the TV show ID from the URL parameters
-	const [tvShow, setTvShow] = useState(null); // State to store TV show details
-	const [tvShowTrailers, setTvShowTrailers] = useState([]); // State to store TV show trailers
-	const [tvShowCredits, setTvShowCredits] = useState([]); // State to store TV show credits
-	const [loading, setLoading] = useState(true); // State to manage loading state
-	const [error, setError] = useState(null); // State to manage errors
+	const { id } = useParams();
+	const [tvShow, setTvShow] = useState(null);
+	const [tvShowTrailers, setTvShowTrailers] = useState([]);
+	const [tvShowCredits, setTvShowCredits] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		// Fetch TV show details, trailers, and credits
 		const fetchData = async () => {
 			try {
-				setLoading(true); // Set loading to true while fetching data
+				// Set loading to true while fetching data
+				setLoading(true);
 
 				// Fetch TV show details, trailers, and credits in parallel
 				const [tvShow, trailers, credits] = await Promise.all([fetchDetails(`tv/${id}`), fetchDetails(`tv/${id}/videos`), fetchDetails(`tv/${id}/credits`)]);
 
-				setTvShow(tvShow); // Set TV show details
-				setTvShowTrailers(trailers.results.slice(0, 2) || []); // Set up to 2 trailers
-				setTvShowCredits(credits || []); // Set TV show credits
+				// Set TV show details
+				setTvShow(tvShow);
+				// Set up the first three trailers
+				setTvShowTrailers(trailers.results.slice(0, 3) || []);
+				// Set TV show credits
+				setTvShowCredits(credits || []);
 			} catch (error) {
-				setError("Failed to fetch data."); // Set error message if fetching fails
-				console.error(error); // Log the error
+				// Set error message if fetching fails
+				setError("Failed to fetch data.");
+				// Log the error
+				console.error(error);
 			} finally {
-				setLoading(false); // Set loading to false after data is fetched
+				// Set loading to false after data is fetched
+				setLoading(false);
 			}
 		};
 
-		fetchData(); // Call the fetchData function
-	}, [id]); // Dependency array: re-fetch when `id` changes
+		// Call the fetchData function
+		fetchData();
+	}, [id]);
 
 	// Render loading spinner while data is being fetched
 	if (loading) {

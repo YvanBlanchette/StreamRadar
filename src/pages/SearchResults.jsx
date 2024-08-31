@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { searchStreams } from "@/actions/getActions"; // Function to fetch search results
-import StreamCard from "@/components/StreamCard"; // Component to display individual stream items
-import { cn } from "@/lib/utils"; // Utility function for conditional class names
+import { searchStreams } from "@/actions/getActions";
+import StreamCard from "@/components/StreamCard";
+import { cn } from "@/lib/utils";
 
 const SearchResults = () => {
 	// Extract queryTerm from the URL with useParams

@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"; // Importing Button component (not used in this code snippet)
-import Featured from "@/components/Featured"; // Importing Featured component for displaying top-rated movies
-import TopStreams from "@/components/TopStreams"; // Importing TopStreams component for displaying movies by category
+import { Button } from "@/components/ui/button";
+import Featured from "@/components/Featured";
+import TopStreams from "@/components/TopStreams";
 
 const Movies = () => {
 	// Title for the featured section

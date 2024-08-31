@@ -1,16 +1,38 @@
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useDispatch, useSelector } from "react-redux";
+import { addSubscriber } from "@/store//newsletterSlice";
+import { toast } from "sonner";
 
 const FooterNewsletterForm = () => {
+	const subscribersList = useSelector((state) => state.newsletter.subscribers);
+	const dispatch = useDispatch();
+
+	// Extracting the register, reset, formState and handleSubmit methods from the useForm hook
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm();
 
+	// Function to check if the email is unique
+	const uniqueEmail = (email) => {
+		return subscribersList.some((subscriber) => subscriber.email === email);
+	};
+
+	// Function to handle form submission
 	const onSubmit = (data) => {
-		console.log("Form Data:", data);
-		// Handle form submission here
+		// Check if the email is unique
+		if (uniqueEmail(data.email)) {
+			toast.error("L'abonné est déjà inscrit");
+		} else {
+			// Dispatch the addSubscriber action with the form data
+			dispatch(addSubscriber(data));
+
+			toast.success("Inscription réussie !");
+			// Reset the form
+			reset();
+		}
 	};
 
 	return (
@@ -47,12 +69,16 @@ const FooterNewsletterForm = () => {
 				{errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 			</div>
 
+			{/* Checkbox input */}
 			<div className="flex flex-col lg:flex-row items-center lg:items-start justify-between mt-4 gap-4">
-				<div className="flex items-center space-x-2">
-					<Checkbox id="newsletter" {...register("newsletter")} />
-					<label htmlFor="newsletter" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
-						Je veux recevoir l'infolettre de StreamRadar
-					</label>
+				<div className="flex flex-col">
+					<div className="flex items-center space-x-2">
+						<input type="checkbox" id="newsletter" {...register("newsletter", { required: "Vous devez accepter les conditions" })} />
+						<label htmlFor="newsletter" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
+							Je veux recevoir l'infolettre de StreamRadar
+						</label>
+					</div>
+					{errors.newsletter && <p className="text-red-500 text-sm">{errors.newsletter.message}</p>}
 				</div>
 
 				{/* Submit button */}

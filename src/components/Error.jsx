@@ -1,11 +1,11 @@
 import { FaTriangleExclamation } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-// Component to display a 404 error message when a page is not found
+// Component to display an error message
 const Error = ({ message = "Erreur 404 - Page introuvable..." }) => {
 	return (
 		<div className="flex flex-col items-center justify-center h-[calc(100vh-350px)] gap-4">
-			{/* Main error message with a triangle exclamation icon */}
+			{/* Main error message  */}
 			<h1 className="text-white mt-20 text-2xl lg:text-5xl flex items-center gap-4">
 				{/* Icon for the error message */}
 				<FaTriangleExclamation className="text-secondary text-7xl" />

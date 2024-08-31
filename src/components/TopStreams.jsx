@@ -6,8 +6,11 @@ import StreamCard from "./StreamCard";
 const TopStreams = ({ endpoint }) => {
 	// State to store the streams data
 	const [streams, setStreams] = useState([]);
+
+	// Default endpoint for fetching the most popular streams
 	const defaultEndpoint = "trending/all/week";
 
+	// Function to fetch data
 	useEffect(() => {
 		const fetchData = async (url) => {
 			try {
@@ -15,7 +18,7 @@ const TopStreams = ({ endpoint }) => {
 				const results = await fetchMostPopulars(url);
 
 				if (results.length === 0 && url !== defaultEndpoint) {
-					// Re-fetch with the default endpoint only if results are empty and it's not the default endpoint
+					// Re-fetch with the default endpoint only if results are empty and it's not the same as the default endpoint
 					const defaultResults = await fetchMostPopulars(defaultEndpoint);
 					setStreams(defaultResults);
 				} else {
@@ -51,8 +54,8 @@ const TopStreams = ({ endpoint }) => {
 					))}
 				</CarouselContent>
 				{/* Previous and next buttons for the carousel, visible on medium screens and larger */}
-				<CarouselPrevious className="hidden md:block" />
-				<CarouselNext className="hidden md:block" />
+				<CarouselPrevious className="hidden md:block -translate-x-6" />
+				<CarouselNext className="hidden md:block translate-x-6" />
 			</Carousel>
 		</div>
 	);

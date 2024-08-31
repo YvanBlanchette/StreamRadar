@@ -8,7 +8,7 @@ const StreamCard = ({ stream }) => {
 		<Dialog>
 			<Card className="bg-transparent border-none shadow-none">
 				<CardContent className="relative flex items-center justify-center">
-					{/* Image that triggers the dialog modal */}
+					{/* Image that triggers the dialog modal to open */}
 					<DialogTrigger>
 						<img
 							src={stream.poster_path ? `https://image.tmdb.org/t/p/w500/${stream.poster_path}` : `/assets/images/no-image.jpg`}
@@ -32,7 +32,7 @@ const StreamCard = ({ stream }) => {
 
 							{/* Stream details */}
 							<div className="px-8 flex flex-col">
-								{/* Stream title with dynamic font size based on title length */}
+								{/* Stream title with different font size based on the title length */}
 								<DialogTitle
 									className={cn(`text-center`, (stream.name && stream.name.length > 30) || (stream.title && stream.title.length > 30) ? "text-xl" : "text-2xl")}
 								>
@@ -55,7 +55,7 @@ const StreamCard = ({ stream }) => {
 									)}
 								</p>
 
-								{/* Stream rating stars */}
+								{/* Stream rating */}
 								<RatingStars voteAverage={stream.vote_average} voteCount={stream.vote_count} />
 
 								{/* Button linking to detailed view */}
